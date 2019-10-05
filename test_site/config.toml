@@ -13,5 +13,9 @@ extra_syntaxes = ["syntaxes"]
 
 ignored_content = ["*/ignored.md"]
 
+link_checker_skip_anchor_prefixes = [
+    "https://github.com/rust-lang/rust/blob/",
+]
+
 [extra.author]
 name = "Vincent Prouillet"

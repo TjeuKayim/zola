@@ -38,7 +38,7 @@ use front_matter::InsertAnchor;
 use library::{
     find_taxonomies, sort_actual_pages_by_date, Library, Page, Paginator, Section, Taxonomy,
 };
-use link_checker::check_url;
+use link_checker::{check_url, LinkChecker};
 use templates::{global_fns, render_redirect_template, ZOLA_TERA};
 use utils::fs::{copy_directory, create_directory, create_file, ensure_directory_exists};
 use utils::net::get_available_port;
@@ -395,11 +395,14 @@ impl Site {
             .build()
             .map_err(|e| Error { kind: ErrorKind::Msg(e.to_string()), source: None })?;
 
+        let link_checker = LinkChecker {
+            skip_anchor_prefixes: self.config.link_checker_skip_anchor_prefixes.to_vec(),
+        };
         let errors: Vec<_> = pool.install(|| {
             all_links
                 .par_iter()
                 .filter_map(|(page_path, link)| {
-                    let res = check_url(&link);
+                    let res = check_url(&link, &link_checker);
                     if res.is_valid() {
                         None
                     } else {

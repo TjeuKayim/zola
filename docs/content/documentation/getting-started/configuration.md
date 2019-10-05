@@ -85,6 +85,11 @@ ignored_content = []
 # A list of directories to search for additional `.sublime-syntax` files in.
 extra_syntaxes = []
 
+# Link Checker: skip anchor checking for external URLs that start with these prefixes
+link_checker_skip_anchor_prefixes = [
+    "https://caniuse.com/",
+]
+
 # Optional translation object. The key if present should be a language code
 [translations]
 
